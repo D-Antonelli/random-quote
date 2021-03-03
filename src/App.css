@@ -1,38 +1,72 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+ html {
+   font-size: 62.5%;
+ }
+
+#content-wrapper {
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: ivory;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#quote-box {
+  font-size: 3rem;
+  letter-spacing: 1.2px;
+  line-height: 1.4;
+  padding: 5rem;
+  width: 80rem;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
+}
+
+#text {
+  margin-left: 10px;
+}
+
+#author {
+  align-self: flex-end;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+#tweet-quote {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+#new-quote {
+  font-family: sans-serif;
+  text-transform: capitalize;
+  letter-spacing: inherit;
+  background-color: transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 0 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#new-quote:focus,
+#new-quote:active,
+#new-quote:visited
+ {
+  outline: none;
 }
+
+#author-name {
+  font-size: .8em;
+}
+
+
+
+
