@@ -2,69 +2,162 @@ import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
-import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import {
+  faTwitterSquare,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const quoteUrl = "https://type.fit/api/quotes";
-const  defaultQuote = {
-    text:
-      "Start by doing what's necessary; then do what's possible; and suddenly you are doing the impossible",
-    author: "Francis of Assisi",
-  };
-const imageUrl = "https://source.unsplash.com/1600x900/?nature,yoga,meditation,wisdom";
+const defaultQuote = {
+  text:
+    "Start by doing what's necessary; then do what's possible; and suddenly you are doing the impossible",
+  author: "Francis of Assisi",
+};
+
+const iconStyle = {
+  color: "white",
+  fontSize: "3vw",
+};
+
+const Logo = () => {
+  return (
+    <div id="logo">
+      <span><span id="logo-capital">I</span>nspired | your random inspiration</span>
+    </div>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer>
+      <p>
+        Made with{" "}
+        <span role="img" aria-label="heart">
+          ❤️
+        </span>{" "}
+        by Derya A.
+      </p>
+    </footer>
+  );
+};
+
+const Navigation =  props => {
+  return (
+    <nav>
+          <button data-keyword="love" onClick={props.onClick} className="nav-btn">
+            #love
+          </button>
+          <button data-keyword="happiness" onClick={props.onClick} className="nav-btn">
+            #happiness
+          </button>
+          <button data-keyword="life" onClick={props.onClick} className="nav-btn">
+            #life
+          </button>
+          <button data-keyword="success" onClick={props.onClick} className="nav-btn">
+            #success
+          </button>
+          <button data-keyword="wisdom" onClick={props.onClick} className="nav-btn">
+            #wisdom
+          </button>
+          <button data-keyword="kindness" onClick={props.onClick} className="nav-btn">
+            #kindness
+          </button>
+    </nav>
+  );
+};
+
 
 class App extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
     this.state = {
-      backgroundImage: imageUrl,
+      backgroundImage: "https://source.unsplash.com/collection/365/1100x600/?",
       items: [defaultQuote],
-      random: 0,
+      filteredItems: []
     };
-    this.changeQuote = this.changeQuote.bind(this);
+    this.changeBackgroundImage = this.changeBackgroundImage.bind(this);
   }
 
-  componentDidMount() {
-    this.changeQuote();
-  }
+  filter = function (e)  {
+      this.setState((prevState, props) => {
+       return {filteredItems: prevState.items.filter((item) =>
+         item.text.includes(e.target.dataset.keyword) 
+       ),
+     }});
+  };
 
-
-  changeQuote = async () => {
-    const response = await axios.get(quoteUrl);
-
+  fetchQuotes = async () => {
+    const response = await axios.get("https://type.fit/api/quotes");
     this.setState({
       items: response.data,
-      random: Math.floor(Math.random() * response.data.length)
     });
   };
 
+  componentDidMount() {
+    this.fetchQuotes();
+  }
+
+  changeBackgroundImage = async () => {
+    const numImagesAvailable = 121;
+    let randomImageIndex = Math.floor(Math.random() * numImagesAvailable);
+
+    const response = await axios.get(
+      `https://source.unsplash.com/collection/365/1100x600/?sig=${randomImageIndex}`
+    );
+
+    this.setState({
+      backgroundImage: response.config.url,
+    });
+  };
 
   render() {
-    const items = this.state.items,
-      random = this.state.random;
+    let items = this.state.filteredItems.length > 0 ? this.state.filteredItems : this.state.items;
+    let random = Math.floor(Math.random() * items.length);
+
     return (
       <div id="content-wrapper">
-        <div id="quote-box" style={{ backgroundImage: `url(${this.state.backgroundImage})` }}>
-          <div id="text-box">
-            <FontAwesomeIcon icon={faQuoteLeft} />
-            <span id="text">{items[random].text}</span>
-          </div>
-          <p id="author">
-            -<span id="author-name">{items[random].author}</span>
-          </p>
-          <div id="buttons">
-            <a href="twitter.com/intent/tweet" id="tweet-quote" target="_blank">
-              <FontAwesomeIcon
-                icon={faTwitterSquare}
-                style={{ color: "black", fontSize: "1.4em" }}
-              />
-            </a>
-            <button id="new-quote" onClick={this.changeQuote}>
-              new quote
-            </button>
-          </div>
-        </div>
+        <header id="header">
+          <Logo />
+          <Navigation onClick={(e) => this.filter(e)} />
+        </header>
+        <main>
+           <div
+            id="quote-box"
+            style={{ backgroundImage: `url(${this.state.backgroundImage})` }}
+          >
+            <div id="text-box">
+              <FontAwesomeIcon icon={faQuoteLeft} />
+              <span id="text">{items[random].text}</span>
+            </div>
+            <p id="author">
+              -<span id="author-name">{items[random].author}</span>
+            </p>
+            <div id="buttons">
+              <div id="icons">
+                <a
+                  href="twitter.com/intent/tweet"
+                  id="tweet-quote"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faTwitterSquare} style={iconStyle} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/shareArticle"
+                  id="linkedin-quote"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FontAwesomeIcon icon={faLinkedin} style={iconStyle} />
+                </a>
+              </div>
+              <button id="new-quote" onClick={this.changeBackgroundImage}>
+                new quote
+              </button>
+            </div>
+          </div> 
+        </main>
+        <Footer />
       </div>
     );
   }
