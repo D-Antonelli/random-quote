@@ -22,7 +22,9 @@ const iconStyle = {
 const Logo = () => {
   return (
     <div id="logo">
-      <span><span id="logo-capital">I</span>nspired | your random inspiration</span>
+      <span>
+        <span id="logo-capital">I</span>nspired | your random inspiration
+      </span>
     </div>
   );
 };
@@ -41,31 +43,42 @@ const Footer = () => {
   );
 };
 
-const Navigation =  props => {
+const Navigation = (props) => {
   return (
     <nav>
-          <button data-keyword="love" onClick={props.onClick} className="nav-btn">
-            #love
-          </button>
-          <button data-keyword="happiness" onClick={props.onClick} className="nav-btn">
-            #happiness
-          </button>
-          <button data-keyword="life" onClick={props.onClick} className="nav-btn">
-            #life
-          </button>
-          <button data-keyword="success" onClick={props.onClick} className="nav-btn">
-            #success
-          </button>
-          <button data-keyword="wisdom" onClick={props.onClick} className="nav-btn">
-            #wisdom
-          </button>
-          <button data-keyword="kindness" onClick={props.onClick} className="nav-btn">
-            #kindness
-          </button>
+      <button data-keyword="love" onClick={props.onClick} className="nav-btn">
+        #love
+      </button>
+      <button
+        data-keyword="happiness"
+        onClick={props.onClick}
+        className="nav-btn"
+      >
+        #happiness
+      </button>
+      <button data-keyword="life" onClick={props.onClick} className="nav-btn">
+        #life
+      </button>
+      <button
+        data-keyword="success"
+        onClick={props.onClick}
+        className="nav-btn"
+      >
+        #success
+      </button>
+      <button data-keyword="wisdom" onClick={props.onClick} className="nav-btn">
+        #wisdom
+      </button>
+      <button
+        data-keyword="kindness"
+        onClick={props.onClick}
+        className="nav-btn"
+      >
+        #kindness
+      </button>
     </nav>
   );
 };
-
 
 class App extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -74,17 +87,19 @@ class App extends React.Component {
     this.state = {
       backgroundImage: "https://source.unsplash.com/collection/365/1100x600/?",
       items: [defaultQuote],
-      filteredItems: []
+      filteredItems: [],
     };
     this.changeBackgroundImage = this.changeBackgroundImage.bind(this);
   }
 
-  filter = function (e)  {
-      this.setState((prevState, props) => {
-       return {filteredItems: prevState.items.filter((item) =>
-         item.text.includes(e.target.dataset.keyword) 
-       ),
-     }});
+  filter = function (e) {
+    this.setState((prevState, props) => {
+      return {
+        filteredItems: prevState.items.filter((item) =>
+          item.text.includes(e.target.dataset.keyword)
+        ),
+      };
+    });
   };
 
   fetchQuotes = async () => {
@@ -112,7 +127,10 @@ class App extends React.Component {
   };
 
   render() {
-    let items = this.state.filteredItems.length > 0 ? this.state.filteredItems : this.state.items;
+    let items =
+      this.state.filteredItems.length > 0
+        ? this.state.filteredItems
+        : this.state.items;
     let random = Math.floor(Math.random() * items.length);
 
     return (
@@ -122,7 +140,7 @@ class App extends React.Component {
           <Navigation onClick={(e) => this.filter(e)} />
         </header>
         <main>
-           <div
+          <div
             id="quote-box"
             style={{ backgroundImage: `url(${this.state.backgroundImage})` }}
           >
@@ -136,10 +154,16 @@ class App extends React.Component {
             <div id="buttons">
               <div id="icons">
                 <a
-                  href="twitter.com/intent/tweet"
+                  href="twitter.com/intent/tweet?hashtags=quotes&text=quote"
                   id="tweet-quote"
-                  target="_blank"
+                  title="Tweet this quote!"
+                  target="_top"
                 >
+                  {/* $('#tweet-quote').attr(
+    'href',
+    'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' +
+      encodeURIComponent('"' + currentQuote + '" ' + currentAuthor)
+  ); */}
                   <FontAwesomeIcon icon={faTwitterSquare} style={iconStyle} />
                 </a>
                 <a
@@ -155,7 +179,7 @@ class App extends React.Component {
                 new quote
               </button>
             </div>
-          </div> 
+          </div>
         </main>
         <Footer />
       </div>
