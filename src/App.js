@@ -22,9 +22,7 @@ const iconStyle = {
 const Logo = () => {
   return (
     <div id="logo">
-      <span>
         <span id="logo-capital">I</span>nspired | your random inspiration
-      </span>
     </div>
   );
 };
@@ -132,6 +130,10 @@ class App extends React.Component {
         ? this.state.filteredItems
         : this.state.items;
     let random = Math.floor(Math.random() * items.length);
+    let randomQuote = items[random].text;
+    let randomAuthor = items[random].author;
+    let tweet = "https://twitter.com/intent/tweet?hashtags=motivation&text="+randomQuote + " -" + randomAuthor;
+    let linkedin = "https://www.linkedin.com/shareArticle?mini=true&url=https://d-antonelli.github.io/random-quote/";
 
     return (
       <div id="content-wrapper">
@@ -146,30 +148,26 @@ class App extends React.Component {
           >
             <div id="text-box">
               <FontAwesomeIcon icon={faQuoteLeft} />
-              <span id="text">{items[random].text}</span>
+              <span id="text">{randomQuote}</span>
             </div>
             <p id="author">
-              -<span id="author-name">{items[random].author}</span>
+              -<span id="author-name">{randomAuthor}</span>
             </p>
             <div id="buttons">
               <div id="icons">
                 <a
-                  href="twitter.com/intent/tweet?hashtags=quotes&text=quote"
+                  href={tweet}
                   id="tweet-quote"
                   title="Tweet this quote!"
                   target="_top"
                 >
-                  {/* $('#tweet-quote').attr(
-    'href',
-    'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' +
-      encodeURIComponent('"' + currentQuote + '" ' + currentAuthor)
-  ); */}
                   <FontAwesomeIcon icon={faTwitterSquare} style={iconStyle} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/shareArticle"
+                  href={linkedin}
                   id="linkedin-quote"
                   target="_blank"
+                  title="Share this website!"
                   rel="noreferrer"
                 >
                   <FontAwesomeIcon icon={faLinkedin} style={iconStyle} />
