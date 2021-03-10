@@ -8,12 +8,12 @@ header {
   position: fixed;
   width: 100%;
   min-height: 4rem;
-  padding: 0 1.5rem;
   background-color: mistyrose;
   top: 0;
   left: 0;
   font-size: 3vh;
   display: flex;
+  justify-content: space-between;
 }
 
 
@@ -24,6 +24,7 @@ header {
 
 #logo {
   user-select: none;
+  margin-left: 1.5rem;
 }
 
 
@@ -31,6 +32,7 @@ nav {
   margin-left: 2rem;
   display: flex;
   flex-wrap: wrap;
+  margin-right: 1.5rem;
 }
 
 
@@ -39,7 +41,7 @@ nav {
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;
-  color: crimson;
+  color: #2E2D4D;
 
   margin-left: 2rem;
   border: none;
