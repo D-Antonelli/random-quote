@@ -80,6 +80,8 @@ nav {
   width: 60vw;
   max-height: 60vh;
   background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: white;
   border-radius: 5px;
   display: flex;
