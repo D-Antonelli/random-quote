@@ -6,7 +6,7 @@ From [FreeCodeCamp's](https://www.freecodecamp.org/learn/front-end-libraries/fro
 
 ## Screenshot of the Web App
 
-![](src/quote-machine.gif)
+![](src/media/quote-machine.gif)
 
 ## Live site
 [Click Here!](https://d-antonelli.github.io/random-quote/)
