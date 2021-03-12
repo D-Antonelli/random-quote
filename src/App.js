@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
+import Navigation from "./components/navigation"
+import Logo from "./components/logo"
+import Footer from "./components/footer"
 import axios from "axios";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -19,66 +22,8 @@ const iconStyle = {
   fontSize: "3vw",
 };
 
-const Logo = () => {
-  return (
-    <div id="logo">
-        <span id="logo-capital">I</span>nspired | your random inspiration
-    </div>
-  );
-};
 
-const Footer = () => {
-  return (
-    <footer>
-      <p>
-        Made with{" "}
-        <span role="img" aria-label="heart">
-          ❤️
-        </span>{" "}
-        by Derya A.
-      </p>
-    </footer>
-  );
-};
-
-const Navigation = (props) => {
-  return (
-    <nav>
-      <button data-keyword="love" onClick={props.onClick} className="nav-btn">
-        #love
-      </button>
-      <button
-        data-keyword="happiness"
-        onClick={props.onClick}
-        className="nav-btn"
-      >
-        #happiness
-      </button>
-      <button data-keyword="life" onClick={props.onClick} className="nav-btn">
-        #life
-      </button>
-      <button
-        data-keyword="success"
-        onClick={props.onClick}
-        className="nav-btn"
-      >
-        #success
-      </button>
-      <button data-keyword="wisdom" onClick={props.onClick} className="nav-btn">
-        #wisdom
-      </button>
-      <button
-        data-keyword="kindness"
-        onClick={props.onClick}
-        className="nav-btn"
-      >
-        #kindness
-      </button>
-    </nav>
-  );
-};
-
-class App extends React.Component {
+class App extends Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
@@ -131,7 +76,7 @@ class App extends React.Component {
         : this.state.items;
     let random = Math.floor(Math.random() * items.length);
     let randomQuote = items[random].text;
-    let randomAuthor = items[random].author;
+    let randomAuthor = items[random].author || "Anonymous";
     let tweet = "https://twitter.com/intent/tweet?hashtags=motivation&text="+randomQuote + " -" + randomAuthor;
     let linkedin = "https://www.linkedin.com/shareArticle?mini=true&url=https://d-antonelli.github.io/random-quote/";
 
