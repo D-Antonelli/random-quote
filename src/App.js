@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import Navigation from "./components/navigation"
 import Logo from "./components/logo"
@@ -23,40 +24,30 @@ const iconStyle = {
 };
 
 
-class App extends Component {
-  // eslint-disable-next-line no-useless-constructor
-  constructor(props) {
-    super(props);
-    this.state = {
-      backgroundImage: "https://source.unsplash.com/collection/365/1100x600/?",
-      items: [defaultQuote],
-      filteredItems: [],
-    };
-    this.changeBackgroundImage = this.changeBackgroundImage.bind(this);
-  }
+function App() {
+  const [backgroundImage, setBackgroundImage] = useState("https://source.unsplash.com/collection/365/1100x600/?");
+  const [quotes, setQuotes] = useState([defaultQuote]);
+  const [filteredQuotes, setFilteredQuotes] = useState([]);
+  const [randomQuote, setRandomQuote] = useState([]);
 
-  filter = function (e) {
-    this.setState((prevState, props) => {
-      return {
-        filteredItems: prevState.items.filter((item) =>
-          item.text.includes(e.target.dataset.keyword)
-        ),
-      };
-    });
+
+  const filter = function (e) {
+    setFilteredQuotes(quotes.filter(quote => quote.text.includes(e.target.dataset.keyword)));
   };
 
-  fetchQuotes = async () => {
+  const fetchQuotes = async () => {
     const response = await axios.get("https://type.fit/api/quotes");
-    this.setState({
-      items: response.data,
-    });
+    setQuotes(response.data);
   };
 
-  componentDidMount() {
-    this.fetchQuotes();
-  }
+  useEffect(() => {
+    fetchQuotes();
+    generateRandomItem();
+    changeBackgroundImage();
+  },[filteredQuotes]); 
 
-  changeBackgroundImage = async () => {
+
+  const changeBackgroundImage = async () => {
     const numImagesAvailable = 121;
     let randomImageIndex = Math.floor(Math.random() * numImagesAvailable);
 
@@ -64,44 +55,42 @@ class App extends Component {
       `https://source.unsplash.com/collection/365/1100x600/?sig=${randomImageIndex}`
     );
 
-    this.setState({
-      backgroundImage: response.config.url,
-    });
+    setBackgroundImage(response.config.url);
   };
 
-  render() {
-    let items =
-      this.state.filteredItems.length > 0
-        ? this.state.filteredItems
-        : this.state.items;
-    let random = Math.floor(Math.random() * items.length);
-    let randomQuote = items[random].text;
-    let randomAuthor = items[random].author || "Anonymous";
-    let tweet = "https://twitter.com/intent/tweet?hashtags=motivation&text="+randomQuote + " -" + randomAuthor;
-    let linkedin = "https://www.linkedin.com/shareArticle?mini=true&url=https://d-antonelli.github.io/random-quote/";
+  
+  const generateRandomItem = function() {
+    let result =
+    filteredQuotes.length > 0
+      ? filteredQuotes
+      : quotes;
+    let random = Math.floor(Math.random() * result.length);
+    setRandomQuote(result[random]);
+  }
+
 
     return (
       <div id="content-wrapper">
         <header id="header">
           <Logo />
-          <Navigation onClick={(e) => this.filter(e)} />
+          <Navigation onClick={e => filter(e)} />
         </header>
         <main>
           <div
             id="quote-box"
-            style={{ backgroundImage: `url(${this.state.backgroundImage})` }}
+            style={{ backgroundImage: `url(${backgroundImage})` }}
           >
             <div id="text-box">
               <FontAwesomeIcon icon={faQuoteLeft} />
-              <span id="text">{randomQuote}</span>
+              <span id="text">{randomQuote.text}</span>
             </div>
             <p id="author">
-              -<span id="author-name">{randomAuthor}</span>
+              -<span id="author-name">{randomQuote.author}</span>
             </p>
             <div id="buttons">
               <div id="icons">
                 <a
-                  href={tweet}
+                  href={"https://twitter.com/intent/tweet?hashtags=motivation&text="+randomQuote.text + " -" + randomQuote.author}
                   id="tweet-quote"
                   title="Tweet this quote!"
                   target="_top"
@@ -109,7 +98,7 @@ class App extends Component {
                   <FontAwesomeIcon icon={faTwitterSquare} style={iconStyle} />
                 </a>
                 <a
-                  href={linkedin}
+                  href={"https://www.linkedin.com/shareArticle?mini=true&url=https://d-antonelli.github.io/random-quote/"}
                   id="linkedin-quote"
                   target="_blank"
                   title="Share this website!"
@@ -118,7 +107,9 @@ class App extends Component {
                   <FontAwesomeIcon icon={faLinkedin} style={iconStyle} />
                 </a>
               </div>
-              <button id="new-quote" onClick={this.changeBackgroundImage}>
+              <button id="new-quote" onClick={() => {
+                changeBackgroundImage();
+                generateRandomItem();}}>
                 new quote
               </button>
             </div>
@@ -127,7 +118,7 @@ class App extends Component {
         <Footer />
       </div>
     );
-  }
+  
 }
 
 export default App;
