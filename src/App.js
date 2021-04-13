@@ -78,6 +78,10 @@ function App() {
           content="inspiration, motivation, quotes, wisdom, success, happiness"
         />
         <meta property="type" content="website" />
+        <meta
+          name="google-site-verification"
+          content="gyhRP1qrmvZ-_WXyTPRx1bzrS6fmoe0yOed58E3sFrw"
+        />
         <meta property="og:site name" content="Inspired" />
         <meta property="og:title" content="Inspirational quotes at Inspired" />
         <meta
